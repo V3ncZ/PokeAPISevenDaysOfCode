@@ -9,5 +9,6 @@ var page = await pokeClient.GetPokemonAsync(50, 0);
 
 foreach (var pokemon in page.Results)
 {
-    Console.WriteLine(pokemon.Name);
+    Console.WriteLine($"Pokemon: {pokemon.Name}\nUrl: {pokemon.Url}");
+    Console.WriteLine("");
 }
