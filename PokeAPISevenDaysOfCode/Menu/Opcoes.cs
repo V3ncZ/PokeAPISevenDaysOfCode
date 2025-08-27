@@ -12,6 +12,15 @@ namespace PokeAPISevenDaysOfCode.Menu
     {
         public async Task MenuOpcoes()
         {
+            Console.WriteLine(@" _                                    _       _     _ 
+| |                                  | |     | |   (_)
+| |_ __ _ _ __ ___   __ _  __ _  ___ | |_ ___| |__  _ 
+| __/ _` | '_ ` _ \ / _` |/ _` |/ _ \| __/ __| '_ \| |
+| || (_| | | | | | | (_| | (_| | (_) | || (__| | | | |
+ \__\__,_|_| |_| |_|\__,_|\__, |\___/ \__\___|_| |_|_|
+                           __/ |                      
+                          |___/                  ");
+
             MensagemDeBoasVindas();
 
             Console.WriteLine("");
@@ -104,6 +113,29 @@ namespace PokeAPISevenDaysOfCode.Menu
                         break;
                     case 2:
                         Console.WriteLine($"\n{especieEscolhida} FOI ESCOLHIDO COMO SEU NOVO MASCOTE, O OVO ESTA CHOCANDO!");
+                        Console.WriteLine(@"                                                                          
+                                                                          
+                                                                          
+                                ████████                                  
+                              ██        ██                                
+                            ██▒▒▒▒        ██                              
+                          ██▒▒▒▒▒▒      ▒▒▒▒██                            
+                          ██▒▒▒▒▒▒      ▒▒▒▒██                            
+                        ██  ▒▒▒▒        ▒▒▒▒▒▒██                          
+                        ██                ▒▒▒▒██                          
+                      ██▒▒      ▒▒▒▒▒▒          ██                        
+                      ██      ▒▒▒▒▒▒▒▒▒▒        ██                        
+                      ██      ▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒██                        
+                      ██▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒██                        
+                        ██▒▒▒▒  ▒▒▒▒▒▒    ▒▒▒▒██                          
+                        ██▒▒▒▒            ▒▒▒▒██                          
+                          ██▒▒              ██                            
+                            ████        ████                              
+                                ████████                                  
+                                                                          
+                                                                          
+                                                                          
+");
                         voltar = true;
                         break;
                     case 3:
@@ -121,7 +153,7 @@ namespace PokeAPISevenDaysOfCode.Menu
             Console.WriteLine("DIGITE O SEU NOME: ");
             string nome = Console.ReadLine()!;
 
-            Console.WriteLine($"BEM VINDO {nome}");
+            Console.WriteLine($"\nBEM VINDO {nome}");
         }
     }
 }
