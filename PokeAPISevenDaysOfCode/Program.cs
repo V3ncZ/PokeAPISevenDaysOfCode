@@ -1,14 +1,4 @@
-﻿using PokeAPISevenDaysOfCode.Services;
+﻿using PokeAPISevenDaysOfCode.Menu;
 
-var client = new HttpClient();
-
-var pokeClient = new PokeApiClient(client);
-
-// Espera o método asincrono para trazer os pokemons
-var page = await pokeClient.GetPokemonAsync(50, 0);
-
-foreach (var pokemon in page.Results)
-{
-    Console.WriteLine($"Pokemon: {pokemon.Name}\nUrl: {pokemon.Url}");
-    Console.WriteLine("");
-}
+var opcoes = new Opcoes();
+await opcoes.MenuOpcoes();

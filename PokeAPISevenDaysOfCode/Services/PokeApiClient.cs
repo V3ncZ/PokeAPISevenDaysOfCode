@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using PokeAPISevenDaysOfCode.Model;
 
 namespace PokeAPISevenDaysOfCode.Services
 {
@@ -33,6 +34,25 @@ namespace PokeAPISevenDaysOfCode.Services
             var result = JsonSerializer.Deserialize<PokemonListResponse>(jsonString, options);
 
             return result!;
+        }
+
+        public async Task<Pokemon> GetSpecificPokemon(string name)
+        {
+            var url = $"{_baseUrl}/pokemon/{name}";
+
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var result = JsonSerializer.Deserialize<Pokemon>(jsonString, options);
+
+            return result;
         }
     }
 }
