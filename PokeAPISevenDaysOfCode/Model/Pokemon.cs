@@ -67,7 +67,7 @@
         {
             Alimentacao++;
         }
-
+        
         public void StatusDoPokemon()
         {
             Console.WriteLine($"NOME DO POKEMON: {Name.ToUpper()}");

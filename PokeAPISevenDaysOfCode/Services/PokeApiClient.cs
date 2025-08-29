@@ -13,7 +13,7 @@ namespace PokeAPISevenDaysOfCode.Services
             _httpClient = httpClient;
         }
 
-        public async Task<PokemonListResponse> GetPokemonAsync(int limit = 20, int offset = 0)
+        public async Task<PokemonListResponse> GetPokemonAsync(int limit = 200, int offset = 0)
         {
             // 1.Monta a URL com paginação
             var url = $"{_baseUrl}pokemon?limit={limit}&offset={offset}";

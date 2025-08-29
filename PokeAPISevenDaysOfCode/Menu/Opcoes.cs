@@ -19,12 +19,11 @@ namespace PokeAPISevenDaysOfCode.Menu
 
         public Pokemon Pokemon { get; set; }
 
+        // Lista para guardar os pokemons adotados
         public List<Pokemon> ListaDePokemons { get; set; } = new List<Pokemon>();
 
         public async Task MenuOpcoes()
         {
-
-            Console.Clear();
 
             MensagemDeBoasVindas();
 
@@ -120,12 +119,13 @@ namespace PokeAPISevenDaysOfCode.Menu
 
         private void VerSeusMascotes()
         {
+            Console.WriteLine("\n-----------------------------------------");
             Console.WriteLine("SEUS MASCOTES POKEMON!");
             foreach (var pokemon in ListaDePokemons)
             {
                 Console.WriteLine(pokemon.Name.ToUpper());
             }
-            Console.WriteLine("PRESSIONE QUALQUER TECLA PARA VOLTAR AO MENU...");
+            Console.WriteLine("\nPRESSIONE QUALQUER TECLA PARA VOLTAR AO MENU...");
         }
 
         private async Task AdotarUmMascote()
@@ -143,15 +143,18 @@ namespace PokeAPISevenDaysOfCode.Menu
             var client = new HttpClient();
             var pokeClient = new PokeApiClient(client);
 
-            var page = await pokeClient.GetPokemonAsync(3, 0);
+            var page = await pokeClient.GetPokemonAsync(40, 0);
 
-            foreach (var pokemon in page.Results) 
+            // Pega 5 pokemon aleatoriamente do resultado da pagina
+            var randomPokemon = page.Results.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+
+            foreach (var pokemon in randomPokemon) 
             {
                 Console.WriteLine(pokemon.Name.ToUpper());
             }
 
-            Console.WriteLine($"\n{NomeJogador} ESCOLHA UMA ESPECIE: ");
-            EspecieEscolhida = Console.ReadLine().ToUpper()!;
+            Console.WriteLine($"\n{NomeJogador} ESCOLHA UM POKEMON DA LISTA OU ALGUM OUTRO QUE VOCE DESEJAR: ");
+            EspecieEscolhida = Console.ReadLine()!.ToUpper()!;
 
             var pokemonDetails = await pokeClient.GetSpecificPokemon(EspecieEscolhida);
 
@@ -214,6 +217,7 @@ namespace PokeAPISevenDaysOfCode.Menu
                         ListaDePokemons.Add(Pokemon);
                         Console.WriteLine("\nPRESSIONE QUALQUER TECLA PARA VOLTAR....");
                         Console.ReadKey();
+                        Console.Clear();
                         voltar = true;
                         break;
                     case 3:
