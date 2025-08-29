@@ -19,7 +19,7 @@ namespace PokeAPISevenDaysOfCode.Menu
 
         public Pokemon Pokemon { get; set; }
 
-        public List<Pokemon> ListaDePokemons { get; set; }
+        public List<Pokemon> ListaDePokemons { get; set; } = new List<Pokemon>();
 
         public async Task MenuOpcoes()
         {
@@ -120,7 +120,12 @@ namespace PokeAPISevenDaysOfCode.Menu
 
         private void VerSeusMascotes()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("SEUS MASCOTES POKEMON!");
+            foreach (var pokemon in ListaDePokemons)
+            {
+                Console.WriteLine(pokemon.Name.ToUpper());
+            }
+            Console.WriteLine("PRESSIONE QUALQUER TECLA PARA VOLTAR AO MENU...");
         }
 
         private async Task AdotarUmMascote()
@@ -151,8 +156,6 @@ namespace PokeAPISevenDaysOfCode.Menu
             var pokemonDetails = await pokeClient.GetSpecificPokemon(EspecieEscolhida);
 
             Pokemon = new Pokemon(pokemonDetails.Name, pokemonDetails.Height, pokemonDetails.Weight, pokemonDetails.Abilities);
-
-            ListaDePokemons.Add(Pokemon);
 
             bool voltar = false;
             while (!voltar)
@@ -208,6 +211,7 @@ namespace PokeAPISevenDaysOfCode.Menu
 ");
                         Thread.Sleep(5000);
                         Console.WriteLine($"O OVO CHOCOU!\n{Pokemon.Name.ToUpper()} AGORA É SEU NOVO MASCOTE!");
+                        ListaDePokemons.Add(Pokemon);
                         Console.WriteLine("\nPRESSIONE QUALQUER TECLA PARA VOLTAR....");
                         Console.ReadKey();
                         voltar = true;
