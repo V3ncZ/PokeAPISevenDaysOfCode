@@ -1,6 +1,6 @@
 ﻿namespace PokeAPISevenDaysOfCode.Model
 {
-    public class Pokemon
+    public  class Pokemon : Mascote
     {
 
         public string Name { get; set; }
@@ -12,40 +12,7 @@
 
         public string Url { get; set; }
 
-        private int _humor = 10;
-
-        public int Humor 
-        { 
-            get => _humor;
-            set
-            {
-                if (value < 0)
-                    _humor = 0;
-                else if (value > 10)
-                    _humor = 10;
-                else
-                    _humor = value;
-            }
-        }
-
-        public string HumorDescricao => _humor > 5 ? "FELIZ" : "TRISTE";
-
-        private int _alimentacao = 10;
-
-        public int Alimentacao {
-            get => _alimentacao;
-            set
-            {
-                if (value < 0)
-                    _alimentacao = 0;
-                else if (value > 10)
-                    _alimentacao = 10;
-                else
-                    _alimentacao = value;
-            } 
-        }
-
-        public string AlimentacaoDescricao => _alimentacao > 5 ? "ALIMENTADO" : "FAMINTO";
+        
 
         public Pokemon() { }
 
@@ -57,16 +24,6 @@
             Abilities = abilities;
         }
 
-        public void Brincar()
-        {
-            Humor++;
-            Alimentacao--;
-        }
-
-        public void Alimentar()
-        {
-            Alimentacao++;
-        }
         
         public void StatusDoPokemon()
         {

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using PokeAPISevenDaysOfCode.Exceptions;
 using PokeAPISevenDaysOfCode.Model;
 
 namespace PokeAPISevenDaysOfCode.Services
@@ -41,6 +42,13 @@ namespace PokeAPISevenDaysOfCode.Services
             var url = $"{_baseUrl}/pokemon/{name}";
 
             var response = await _httpClient.GetAsync(url);
+
+            // Verifica se a resposta foi um NotFound e lanca a excecao
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                throw new PokemonNaoEncontradoException();
+            }
+
             response.EnsureSuccessStatusCode();
 
             var jsonString = await response.Content.ReadAsStringAsync();

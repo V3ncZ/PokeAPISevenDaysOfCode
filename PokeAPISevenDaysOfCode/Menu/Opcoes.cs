@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PokeAPISevenDaysOfCode.Exceptions;
 using PokeAPISevenDaysOfCode.Model;
 using PokeAPISevenDaysOfCode.Services;
 
@@ -72,15 +66,25 @@ namespace PokeAPISevenDaysOfCode.Menu
 
             Console.Clear();
 
-            bool voltar = false;
-            while (!voltar)
+            Console.WriteLine("QUAL POKEMON VOCE DESEJA INTERAGIR?");
+            foreach (var (pokemon, i) in ListaDePokemons.Select((pokemon, i) => (pokemon, i)))
             {
+                Console.WriteLine($"{i} - {pokemon.Name.ToUpper()}");
+            }
+            var pokemonEscolhido = Console.ReadLine();
+            
+            // Pega o pokemon com base no indice da lista
+            Pokemon pokemonInteragir = ListaDePokemons[int.Parse(pokemonEscolhido!)];
 
+
+            bool voltar = false;
+            while(!voltar)
+            {
                 Console.WriteLine("\n-----------------------------------------");
                 Console.WriteLine($"{NomeJogador} VOCE DESEJA....");
-                Console.WriteLine($"1 - SABER COMO {EspecieEscolhida} ESTA");
-                Console.WriteLine($"2 - ALIMENTAR {EspecieEscolhida}");
-                Console.WriteLine($"3 - BRINCAR COM {EspecieEscolhida}");
+                Console.WriteLine($"1 - SABER COMO {pokemonInteragir.Name.ToUpper()} ESTA");
+                Console.WriteLine($"2 - ALIMENTAR {pokemonInteragir.Name.ToUpper()}");
+                Console.WriteLine($"3 - BRINCAR COM {pokemonInteragir.Name.ToUpper()}");
                 Console.WriteLine("4 - VOLTAR");
                 var keyInfo = Console.ReadKey(true);
                 int opcao = keyInfo.KeyChar - '0';
@@ -91,19 +95,20 @@ namespace PokeAPISevenDaysOfCode.Menu
                     case 1:
                         Console.WriteLine("\n-----------------------------------------");
                         Pokemon.StatusDoPokemon();
-                        break;
+                        break;  
                     case 2:
                         Console.WriteLine("\n-----------------------------------------");
                         Pokemon.Alimentar();
-                        Console.WriteLine($"{Pokemon.Name.ToUpper()} ALIMENTADO!");
+                        Console.WriteLine($"{pokemonInteragir.Name.ToUpper()} ALIMENTADO!");
                         break;
                     case 3:
                         Console.WriteLine("\n-----------------------------------------");
                         Pokemon.Brincar();
-                        Console.WriteLine($"{Pokemon.Name.ToUpper()} ESTA MAIS FELIZ!");
+                        Console.WriteLine($"{pokemonInteragir.Name.ToUpper()} ESTA MAIS FELIZ!");
                         break;
                     case 4:
                         voltar = true;
+                        Console.Clear();
                         break;
                     default:
                         Console.WriteLine("");
@@ -111,19 +116,20 @@ namespace PokeAPISevenDaysOfCode.Menu
                         voltar = true;
                         break;
 
+
                 }
             }
 
-            
         }
 
         private void VerSeusMascotes()
         {
             Console.WriteLine("\n-----------------------------------------");
             Console.WriteLine("SEUS MASCOTES POKEMON!");
-            foreach (var pokemon in ListaDePokemons)
+
+            foreach (var (pokemon, i) in ListaDePokemons.Select((pokemon, i) => (pokemon, i = 1)))
             {
-                Console.WriteLine(pokemon.Name.ToUpper());
+                Console.WriteLine($"{i} - {pokemon.Name.ToUpper()}");
             }
             Console.WriteLine("\nPRESSIONE QUALQUER TECLA PARA VOLTAR AO MENU...");
         }
@@ -153,12 +159,29 @@ namespace PokeAPISevenDaysOfCode.Menu
                 Console.WriteLine(pokemon.Name.ToUpper());
             }
 
-            Console.WriteLine($"\n{NomeJogador} ESCOLHA UM POKEMON DA LISTA OU ALGUM OUTRO QUE VOCE DESEJAR: ");
-            EspecieEscolhida = Console.ReadLine()!.ToUpper()!;
+            bool pokemonValido = false;
+            while (!pokemonValido)
+            {
+                try
+                {
+                    Console.WriteLine($"\n{NomeJogador} ESCOLHA UM POKEMON DA LISTA OU ALGUM OUTRO QUE VOCE DESEJAR: ");
 
-            var pokemonDetails = await pokeClient.GetSpecificPokemon(EspecieEscolhida);
+                    EspecieEscolhida = Console.ReadLine()!.ToUpper()!;
 
-            Pokemon = new Pokemon(pokemonDetails.Name, pokemonDetails.Height, pokemonDetails.Weight, pokemonDetails.Abilities);
+                    var pokemonDetails = await pokeClient.GetSpecificPokemon(EspecieEscolhida);
+
+                    Pokemon = new Pokemon(pokemonDetails.Name, pokemonDetails.Height, pokemonDetails.Weight, pokemonDetails.Abilities);
+
+                    pokemonValido = true;
+
+                }
+                catch (PokemonNaoEncontradoException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("TENTE NOVAMENTE");
+                }
+            }
+            
 
             bool voltar = false;
             while (!voltar)
